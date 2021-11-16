@@ -1,14 +1,7 @@
-import React, {
-  useEffect, useMemo, useRef, useState,
-} from 'react';
+import React from 'react';
 import { DefaultNode, Graph } from '@visx/network';
-
-import {
-  CircleSubject, Connector, EditableAnnotation, Label,
-} from '@visx/annotation';
-import { Box } from '@mui/material';
+import { CircleSubject, EditableAnnotation } from '@visx/annotation';
 import { Play } from './services/dataService';
-import useScale from './hooks/useScale';
 import { ReactComponent as IceRink } from './ht-ice-rink.svg';
 
 type IceRinkProps = {
@@ -23,8 +16,6 @@ type CustomNode = {
   x: number;
   y: number;
   color?: string;
-  // title: string;
-  // subtitle: string;
 };
 
 type CustomLink = {
@@ -136,38 +127,6 @@ export default function IceRinkSequence({
     />
   );
 
-  // const graph = {
-  //   nodes,
-  //   links,
-  // };
-
-  // const handleMouseMove = useCallback(
-  //   (event: React.MouseEvent | React.TouchEvent) => {
-  //     if (tooltipTimeout) clearTimeout(tooltipTimeout);
-  //     if (!svgRef.current) return;
-
-  //     // find the nearest polygon to the current mouse position
-  //     const point = localPoint(svgRef.current, event);
-  //     if (!point) return;
-  //     const neighborRadius = 100;
-  //     const closest = voronoiLayout.find(point.x, point.y, neighborRadius);
-  //     if (closest) {
-  //       showTooltip({
-  //         tooltipLeft: xScale(x(closest.data)),
-  //         tooltipTop: yScale(y(closest.data)),
-  //         tooltipData: closest.data,
-  //       });
-  //     }
-  //   },
-  //   [xScale, yScale, showTooltip, voronoiLayout],
-  // );
-
-  // const handleMouseLeave = useCallback(() => {
-  //   tooltipTimeout = window.setTimeout(() => {
-  //     hideTooltip();
-  //   }, 300);
-  // }, [hideTooltip]);
-
   return (
     <svg width={200 * xScale} height={85 * yScale} overflow="visible">
       <IceRink y={-2} />
@@ -178,20 +137,17 @@ export default function IceRinkSequence({
             nodeComponent={nodeComponent}
             linkComponent={linkComponent}
           />
-          {/* {circles} */}
           <EditableAnnotation
             width={10}
             height={10}
             x={annotationNode.x}
             y={annotationNode.y}
-            dx={20} // x offset of label from subject
-            dy={20} // y offset of label from subject
+            dx={20}
+            dy={20}
             canEditLabel={false}
             canEditSubject={false}
           >
-            {/* <Connector /> */}
             <CircleSubject strokeWidth={2} />
-            {/* <Label title={annotationNode.title} subtitle={annotationNode.subtitle} /> */}
           </EditableAnnotation>
           <defs>
             <marker

@@ -1,9 +1,21 @@
-import './App.css';
 import React, {
   useState, useEffect,
 } from 'react';
 import {
-  Autocomplete, Box, Card, Container, Grid, TextField, Typography, Slider, Stack, CardContent, CardActions, Button, ToggleButtonGroup, ToggleButton, Divider,
+  Autocomplete,
+  Box,
+  Card,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+  Slider,
+  CardContent,
+  CardActions,
+  Button,
+  ToggleButtonGroup,
+  ToggleButton,
+  Divider,
 } from '@mui/material';
 import { ParentSize } from '@visx/responsive';
 import IceRinkSequence from './IceRinkSequence';
@@ -20,11 +32,9 @@ export default function App() {
   const [sequences, setSequences] = useState<Sequence[]>([]);
   const [selectedEvents, setSelectedEvents] = useState<string[]>(['Shot', 'Faceoff Win']);
   const [filteredSequences, setFilteredSequences] = useState<Sequence[]>([]);
-
   const [selectedSequence, setSelectedSequence] = useState<Sequence | null>(null);
   const [selectedMark, setSelectedMark] = useState<number | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState<number>(1);
-
   const [selectedPlay, setSelectedPlay] = useState<Play | null>(null);
 
   const loadPlaysForSequence = async (id: string) => {
@@ -84,11 +94,9 @@ export default function App() {
 
   const marks = filteredSequences.map((sequence) => ({
     value: sequence.start_time,
-    // label: sequence.start_clock,
   }));
 
   const playIndex = (selectedPlay && plays.indexOf(selectedPlay)) || 0;
-  console.log(playIndex);
 
   return (
     <Container maxWidth="xl">
@@ -194,25 +202,6 @@ export default function App() {
             )}
           </Grid>
           <Grid container item spacing={2}>
-            <Grid item xs={12} md={6} display="flex" justifyContent="center">
-              <Box height={{ xs: 150, sm: 300, md: 450 }} width="100%">
-                <ParentSize
-                  debounceTime={10}
-                  parentSizeStyles={{
-                    width: '100%', height: '100%', display: 'flex', justifyContent: 'center',
-                  }}
-                >
-                  {({ width, height }) => (
-                    <IceRinkSequence
-                      plays={plays}
-                      selectedPlay={selectedPlay}
-                      onPlaySelected={(play) => setSelectedPlay(play)}
-                      dimensions={{ width, height }}
-                    />
-                  )}
-                </ParentSize>
-              </Box>
-            </Grid>
             <Grid item xs={12} md={6}>
               {
                 selectedPlay && (
@@ -242,7 +231,14 @@ export default function App() {
                             {`${selectedPlay.period} - ${selectedPlay.clock}`}
                           </Typography>
                         </Grid>
-                        <Grid item xs={4} display="flex" flexDirection="column" alignItems="flex-end" justifyContent="space-around">
+                        <Grid
+                          item
+                          xs={4}
+                          display="flex"
+                          flexDirection="column"
+                          alignItems="flex-end"
+                          justifyContent="space-around"
+                        >
                           <Typography variant="subtitle2" component="div">
                             {selectedPlay.home_team}
                           </Typography>
@@ -312,6 +308,25 @@ export default function App() {
                   </Card>
                 )
               }
+            </Grid>
+            <Grid item xs={12} md={6} display="flex" justifyContent="center">
+              <Box height={{ xs: 150, sm: 300, md: 450 }} width="100%">
+                <ParentSize
+                  debounceTime={10}
+                  parentSizeStyles={{
+                    width: '100%', height: '100%', display: 'flex', justifyContent: 'center',
+                  }}
+                >
+                  {({ width, height }) => (
+                    <IceRinkSequence
+                      plays={plays}
+                      selectedPlay={selectedPlay}
+                      onPlaySelected={(play) => setSelectedPlay(play)}
+                      dimensions={{ width, height }}
+                    />
+                  )}
+                </ParentSize>
+              </Box>
             </Grid>
           </Grid>
         </Grid>

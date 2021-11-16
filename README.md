@@ -1,46 +1,31 @@
-# Getting Started with Create React App
+# Hockey Sequences
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Website
+https://hockey-sequences.netlify.app/
 
-## Available Scripts
+![ipad-portrait](./public/ipad-portrait.png)
 
-In the project directory, you can run:
+## Design ideas and assumptions
+One of the areas I've always wanted to explore was linking individual events into sequences, to gather more contextual information about specific events (ex. what past events lead to a shot on net?). With the Women's Olympic hockey dataset provided, I wanted to provide a simple and easy-to-use interface that would allow coaches or analysts to walk through these sequences without need to walk through raw data. For the design, some of my ideas and assumptions were:
 
-### `npm start`
+- The intended user may not be at their desk, so the interface must be available on-demand, and must be mobile-responsive.
+- The interface must be simple to use, and only serve a single purpose (i.e. to provide contextual information around hockey events).
+- The interface might be used during time-sensitive moments, so it must be performant and quick to display data.
+- The sequence data may be used independent of the interface (by analysts), and should be accessible outside of the UI interface.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Implementation
+### Front-end
+- The front-end (this repository) was built using React, using [Material UI](https://mui.com/) components to expedite development and provide a modern and responsive interface
+- Instead of using pre-built graphing libraries like plotly, I decided to build a custom ice rink chart using [visx](https://airbnb.io/visx/) components. This allowed me to create re-usable components for other charts, and would allow me to easily modify the charts based on user feedback.
+- I deployed the front-end using Netlify.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Back-end
+- I built the back-end using Python and Flask to prop up a simple API for the front-end. This allowed me to split the dataset into smaller network calls, to ensure the front-end remained performant.
+- I leveraged pandas to translate the raw data into hockey sequences, and persisted the data into a sqlite database. 
+- I deployed the back-end through a docker container to Heroku: https://hockey-sequences.herokuapp.com/sequences
+- The code for the back-end can be found in the following repository: https://github.com/danpanaite/hockey-sequences-backend
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Areas of Improvement
+- The generation of sequence data is super slow! Creating the data is a one-time initialization step, but it would definitely be painful to generate the data for a full hockey season. I would like to take more time and explore approaches to leveraging vectorization techniques to improve the performance.
+- While I think the visualization provides a good start for providing contextual information, it isn't terribly actionable. I'd be curious to know what information coaches or analysts are looking for when looking at play-by-play events.
+- Building both a front-end and back-end was an expensive task, so I wasn't able to fully focus on the best code practices. For the front-end, I would like to split my React components into more reusable components, and leverage a state management system. For the back-end, I would like to remove my data logic into a separate module outside of the API work, so that it could be used by other projects.
